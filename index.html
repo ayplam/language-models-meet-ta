@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 
     <!-- Metadata to edit -->
-		<title> A practical introduction to git</title>
+		<title>Sesame Street learns about Assholes</title>
 		<meta name="author" content="Anna Kennedy">
     <!-- /Metadata to edit -->
 
@@ -42,7 +42,7 @@
 
         <!-- Title slide -->
 				<section>
-					<h1>Language Models Meet AITA</h1>
+					<h1>Sesame Street learns about Assholes</h1>
 					<p>
 						<small>Adrian Lam</small>
 					</p>
@@ -52,18 +52,87 @@
 <!-- Overview -->
 				<section>
 					<h1>Overview</h1>
-					<p class="fragment"><ul>
-							<li>AITA Overview</li>
-					</ul></p>
-					<aside class="notes">
-					</aside>
+					<p>BERT (a transformer model by Google) has shown to be effective at
+						solving a variety of natural language problems. But can it find
+						the asshole(s) in an interpersonal conflict?
+					</p>
 				</section>
-		
 
 				<section>
-					<h3>Asshole Distribution</h3>
-					<iframe src="html/aita_judgement.html" width=500 height=500></iframe>
+					<h2><a href="https://www.reddit.com/r/amitheasshole">r/amitheasshole</a></h2>
+					<p>
+						The AITA subreddit allows users (the original poster aka OP) to post 
+						a conflict they experienced. Other users then decide which of the four
+						judgements apply
+						<ul>
+							<li><b>YTA</b>: OP is the asshole - and the other party isn't</li>
+							<li><b>NTA</b>: Not the asshole - and that OP is an asshole</li>
+							<li><b>NAH</b>: No assholes here - no one was wrong</li>
+							<li><b>ESH</b>: Everyone sucks here - everyone's an asshole</li>
+						</ul>
+					</p>
+				</section>				
+
+				<section>
+					<h2>AITA Dataset</h2>
+					<p>The rules of the subreddit enforce that a comment MUST contain a judgement
+						making it an excellent dataset for scraping. Posts can be scraped by using
+						a combination of <a href="https://github.com/praw-dev/praw">praw</a> and 
+						<a href="https://pushshift.io/">pushshift</a>
+					</p>
 				</section>
+		
+				<section>
+					<h3>Asshole Distribution</h3>
+					<p>A quick inspection shows that most OPs are not assholes. NAH/ESH posts are
+						in the minority.
+					</p>
+					<iframe src="html/aita_judgement.html" width=650 height=590></iframe>
+				</section>
+
+				<section>
+					<h3>Multiple Opinions</h3>
+					<p>14% of the time, more than one judgement is popular
+					</p>
+					<iframe src="html/aita_split_decisions.html" width=650 height=590></iframe>
+				</section>
+
+				<section>
+					<h3>Label Representation</h3>
+					<p>The labels can be represented in multiple ways.
+						<ul>
+							<li><b>Multiclass</b>: The most prominent judgement is the correct answer.</li>
+							<li><b>Multilabel</b>: Multiple judgements can be simultaneously correct</li>
+							<li><b>Regression</b>: The label depends on the proportion of 
+								votes each judgement received
+							</li>
+							<li><b>2-Class Multilabel</b>: Binary multilabel. The first class represents whether or not 
+								OP was the asshole. The second class represents whether the other party was the asshole.
+							</li>
+						</ul>						
+					</p>
+				</section>				
+
+				<section>
+					<h3>Transfer Learning</h3>
+					<p>To see how well different language models could generalize across new tasks, model weights
+						were frozen. The pooled outputs representing the contextualized word 
+						embeddings were fed into a few fully connected layers and a classification tail. 
+						All language model weights were obtained from <a href="https://huggingface.co/">huggingface</a>.
+					</p>
+				</section>
+				<section> 
+					<h3>Language Model Comparisons</h3>
+					<p>Four different types of models were evaluated:</p>
+					</p>
+					<ol>
+						<li>BERT: The original masked language model that started it all</li>
+						<li>ALBERT: A lighter weight method of training MLM when compared to Bert</li>
+						<li>DistilBert: A distilled version of the BERT model </li>
+						<li>Electra: A new paradigm of language model that uses a generator/discriminator</li>
+					</ol>
+				</section>
+
 
 			</div>
 		</div>
