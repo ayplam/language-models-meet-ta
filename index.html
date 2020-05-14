@@ -6,7 +6,7 @@
 
     <!-- Metadata to edit -->
 		<title>Sesame Street learns about Assholes</title>
-		<meta name="author" content="Anna Kennedy">
+		<meta name="author" content="Adrian Lam">
     <!-- /Metadata to edit -->
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -19,16 +19,6 @@
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-		<script>
-			if( window.location.search.match( /print-pdf/gi ) ) {
-				var link = document.createElement( 'link' );
-				link.rel = 'stylesheet';
-				link.type = 'text/css';
-				link.href = 'css/print/pdf.css';
-				document.getElementsByTagName( 'head' )[0].appendChild( link );
-			}
-		</script>
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -44,96 +34,144 @@
 				<section>
 					<h1>Sesame Street learns about Assholes</h1>
 					<p>
-						<small>Adrian Lam</small>
+						Adrian Lam
 					</p>
 				</section>
 
 
 <!-- Overview -->
 				<section>
-					<h1>Overview</h1>
-					<p>BERT (a transformer model by Google) has shown to be effective at
-						solving a variety of natural language problems. But can it find
-						the asshole(s) in an interpersonal conflict?
-					</p>
+					<section>
+						<h1>Overview</h1>
+						<p>BERT (a transformer model by Google) has shown to be effective at
+							solving a variety of natural language problems. But can it find
+							the asshole(s) in an interpersonal conflict?
+						</p>
+					</section>
+
+					<section>
+						<h2><a href="https://www.reddit.com/r/amitheasshole">r/amitheasshole</a></h2>
+						<p>
+							The AITA subreddit allows users (the original poster aka OP) to post 
+							a conflict they experienced. Other users then decide which of the four
+							judgements apply
+							<ul>
+								<li><b>YTA</b>: OP is the asshole - and the other party isn't</li>
+								<li><b>NTA</b>: Not the asshole - and that OP is an asshole</li>
+								<li><b>NAH</b>: No assholes here - no one was wrong</li>
+								<li><b>ESH</b>: Everyone sucks here - everyone's an asshole</li>
+							</ul>
+						</p>
+					</section>				
+
+					<section>
+						<h2>Subreddit Contents</h2>
+						<p>The rules of the subreddit enforce that a comment MUST contain a judgement
+							making it an excellent dataset for scraping. Posts can be scraped by using
+							a combination of <a href="https://github.com/praw-dev/praw">praw</a> and 
+							<a href="https://pushshift.io/">pushshift</a>
+						</p>
+					</section>
+			
+					<section>
+						<h3>Asshole Distribution</h3>
+						<p>A quick inspection shows that most OPs are not assholes. NAH/ESH posts are
+							in the minority.
+						</p>
+						<iframe src="html/aita_judgement.html" width=800 height=575></iframe>
+					</section>
+
+					<section>
+						<h3>Multiple Opinions</h3>
+						<p>14% of the time, more than one judgement is applicable
+						</p>
+						<iframe src="html/aita_split_decisions.html" width=1000 height=500></iframe>
+					</section>
 				</section>
 
+				<!-- AITA Dataset -->
 				<section>
-					<h2><a href="https://www.reddit.com/r/amitheasshole">r/amitheasshole</a></h2>
-					<p>
-						The AITA subreddit allows users (the original poster aka OP) to post 
-						a conflict they experienced. Other users then decide which of the four
-						judgements apply
-						<ul>
-							<li><b>YTA</b>: OP is the asshole - and the other party isn't</li>
-							<li><b>NTA</b>: Not the asshole - and that OP is an asshole</li>
-							<li><b>NAH</b>: No assholes here - no one was wrong</li>
-							<li><b>ESH</b>: Everyone sucks here - everyone's an asshole</li>
-						</ul>
-					</p>
-				</section>				
+					<section>
+						<h1>Dataset ETL</h1>
+						<p>
+							To construct a dataset for modeling, we need to determine how to properly featurize 
+							the data and code the asshole labels.
+						</p>
+					</section>
+					<section>
+						<h3>Features</h3>
+						<p>There are two main items we can use for features - the title and the narrative
+							of the post. While users can be influenced from the title, the narrative is
+							ultimately what decides the judgement. The narrative itself is easily
+							featurized with a tokenizer.
+						</p>
+					</section>		
+					<section data-markdown>
+						<script type="text/template">
+							### Label Encoding (1)
 
-				<section>
-					<h2>AITA Dataset</h2>
-					<p>The rules of the subreddit enforce that a comment MUST contain a judgement
-						making it an excellent dataset for scraping. Posts can be scraped by using
-						a combination of <a href="https://github.com/praw-dev/praw">praw</a> and 
-						<a href="https://pushshift.io/">pushshift</a>
-					</p>
+							The labels can be represented in multiple ways.
+
+							* **Multiclass**: The most prominent judgement is the correct answer
+							* **Multilabel**: Multiple judgements can be simultaneously correct
+							* **Regression**: The percentage of votes given to each judgement
+
+							```
+# One-hot encoding: YTA, NTA, NAH, ESH
+[0, 1, 0, 0] # multiclass, NTA
+[0, 1, 1, 0] # multilabel, NTA + NAH
+[0, 0.8, 0.2, 0] # multilabel, 80% NTA + 20% NAH
+
+							```
+
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							### Label Encoding (2)
+
+							The labels can also be encoded by two binary classes
+
+							```
+# Class 1: OP is/isn't the asshole
+# Class 2: The other party is/isn't the asshole
+[1, 0] # YTA
+[0, 1] # NTA
+[1, 1] # ESH
+```
+
+						</script>
+					</section>						
+
 				</section>
-		
+				<!-- Modeling -->
 				<section>
-					<h3>Asshole Distribution</h3>
-					<p>A quick inspection shows that most OPs are not assholes. NAH/ESH posts are
-						in the minority.
-					</p>
-					<iframe src="html/aita_judgement.html" width=850 height=590></iframe>
+					<section>
+						<h1>Modeling</h1>
+						<p>
+							We can use the latest and greatest language models 
+						</p>
+					</section>
+					<section>
+						<h3>Transfer Learning</h3>
+						<p>To see how well different language models could generalize across new tasks, model weights
+							were frozen. The pooled outputs representing the contextualized word 
+							embeddings were fed into a few fully connected layers and a classification tail. 
+							All language model weights were obtained from <a href="https://huggingface.co/">huggingface</a>.
+						</p>
+					</section>
+					<section> 
+						<h3>Language Model Comparisons</h3>
+						<p>Four different types of models were evaluated:</p>
+						</p>
+						<ol>
+							<li>BERT: The original masked language model that started it all</li>
+							<li>ALBERT: A lighter weight method of training MLM when compared to Bert</li>
+							<li>DistilBert: A distilled version of the BERT model </li>
+							<li>Electra: A new paradigm of language model that uses a generator/discriminator</li>
+						</ol>
+					</section>
 				</section>
-
-				<section>
-					<h3>Multiple Opinions</h3>
-					<p>14% of the time, more than one judgement is popular
-					</p>
-					<iframe src="html/aita_split_decisions.html" width=850 height=590></iframe>
-				</section>
-
-				<section>
-					<h3>Label Representation</h3>
-					<p>The labels can be represented in multiple ways.
-						<ul>
-							<li><b>Multiclass</b>: The most prominent judgement is the correct answer.</li>
-							<li><b>Multilabel</b>: Multiple judgements can be simultaneously correct</li>
-							<li><b>Regression</b>: The label depends on the proportion of 
-								votes each judgement received
-							</li>
-							<li><b>2-Class Multilabel</b>: Binary multilabel. The first class represents whether or not 
-								OP was the asshole. The second class represents whether the other party was the asshole.
-							</li>
-						</ul>						
-					</p>
-				</section>				
-
-				<section>
-					<h3>Transfer Learning</h3>
-					<p>To see how well different language models could generalize across new tasks, model weights
-						were frozen. The pooled outputs representing the contextualized word 
-						embeddings were fed into a few fully connected layers and a classification tail. 
-						All language model weights were obtained from <a href="https://huggingface.co/">huggingface</a>.
-					</p>
-				</section>
-				<section> 
-					<h3>Language Model Comparisons</h3>
-					<p>Four different types of models were evaluated:</p>
-					</p>
-					<ol>
-						<li>BERT: The original masked language model that started it all</li>
-						<li>ALBERT: A lighter weight method of training MLM when compared to Bert</li>
-						<li>DistilBert: A distilled version of the BERT model </li>
-						<li>Electra: A new paradigm of language model that uses a generator/discriminator</li>
-					</ol>
-				</section>
-
-
 			</div>
 		</div>
 
