@@ -1,87 +1,115 @@
 /*
+ * Visual Studio 2015 dark style
+ * Author: Nicolas LLOBERA <nllobera@gmail.com>
+ */
 
-Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
-
-*/
-pre code {
-  display: block; padding: 0.5em;
+ .hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #1E1E1E;
+  color: #DCDCDC;
 }
 
-pre .comment,
-pre .annotation,
-pre .template_comment,
-pre .diff .header,
-pre .chunk,
-pre .apache .cbracket {
-  color: rgb(0, 128, 0);
+.hljs-keyword,
+.hljs-literal,
+.hljs-symbol,
+.hljs-name {
+  color: #569CD6;
+}
+.hljs-link {
+  color: #569CD6;
+  text-decoration: underline;
 }
 
-pre .keyword,
-pre .id,
-pre .built_in,
-pre .smalltalk .class,
-pre .winutils,
-pre .bash .variable,
-pre .tex .command,
-pre .request,
-pre .status,
-pre .nginx .title,
-pre .xml .tag,
-pre .xml .tag .value {
-  color: rgb(0, 0, 255);
+.hljs-built_in,
+.hljs-type {
+  color: #4EC9B0;
 }
 
-pre .string,
-pre .title,
-pre .parent,
-pre .tag .value,
-pre .rules .value,
-pre .rules .value .number,
-pre .ruby .symbol,
-pre .ruby .symbol .string,
-pre .aggregate,
-pre .template_tag,
-pre .django .variable,
-pre .addition,
-pre .flow,
-pre .stream,
-pre .apache .tag,
-pre .date,
-pre .tex .formula,
-pre .coffeescript .attribute {
-  color: rgb(163, 21, 21);
+.hljs-number,
+.hljs-class {
+  color: #B8D7A3;
 }
 
-pre .ruby .string,
-pre .decorator,
-pre .filter .argument,
-pre .localvars,
-pre .array,
-pre .attr_selector,
-pre .pseudo,
-pre .pi,
-pre .doctype,
-pre .deletion,
-pre .envvar,
-pre .shebang,
-pre .preprocessor,
-pre .userType,
-pre .apache .sqbracket,
-pre .nginx .built_in,
-pre .tex .special,
-pre .prompt {
-  color: rgb(43, 145, 175);
+.hljs-string,
+.hljs-meta-string {
+  color: #D69D85;
 }
 
-pre .phpdoc,
-pre .javadoc,
-pre .xmlDocTag {
-  color: rgb(128, 128, 128);
+.hljs-regexp,
+.hljs-template-tag {
+  color: #9A5334;
 }
 
-pre .vhdl .typename { font-weight: bold; }
-pre .vhdl .string { color: #666666; }
-pre .vhdl .literal { color: rgb(163, 21, 21); }
-pre .vhdl .attribute { color: #00B0E8; }
+.hljs-subst,
+.hljs-function,
+.hljs-title,
+.hljs-params,
+.hljs-formula {
+  color: #DCDCDC;
+}
 
-pre .xml .attribute { color: rgb(255, 0, 0); }
+.hljs-comment,
+.hljs-quote {
+  color: #57A64A;
+  font-style: italic;
+}
+
+.hljs-doctag {
+  color: #608B4E;
+}
+
+.hljs-meta,
+.hljs-meta-keyword,
+.hljs-tag {
+  color: #9B9B9B;
+}
+
+.hljs-variable,
+.hljs-template-variable {
+  color: #BD63C5;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-builtin-name {
+  color: #9CDCFE;
+}
+
+.hljs-section {
+  color: gold;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+/*.hljs-code {
+  font-family:'Monospace';
+}*/
+
+.hljs-bullet,
+.hljs-selector-tag,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #D7BA7D;
+}
+
+.hljs-addition {
+  background-color: #144212;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-deletion {
+  background-color: #600;
+  display: inline-block;
+  width: 100%;
+}

@@ -17,7 +17,7 @@
 		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
 
 		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/monokai_sublime.css">
+		<link rel="stylesheet" href="lib/css/vs.css">
 
 
 		<!--[if lt IE 9]>
@@ -117,7 +117,7 @@
 							* **Multilabel**: Multiple judgements can be simultaneously correct
 							* **Regression**: The percentage of votes given to each judgement
 
-							```
+							```python
 # One-hot encoding: YTA, NTA, NAH, ESH
 [0, 1, 0, 0] # multiclass, NTA
 [0, 1, 1, 0] # multilabel, NTA + NAH
@@ -131,9 +131,9 @@
 						<script type="text/template">
 							### Label Encoding (2)
 
-							The labels can also be encoded by two binary classes
+							The labels can also be encoded by two binary classes  
 
-							```
+							```python
 # Class 1: OP is/isn't the asshole
 # Class 2: The other party is/isn't the asshole
 [1, 0] # YTA
